@@ -1,0 +1,22 @@
+.message
+
+p Edit profile
+
+=form_with model: @user do |f|
+  p
+    = f.label :firstname
+    = f.text_field :firstname, value: @user.firstname
+
+  p
+    = f.label :lastname
+    = f.text_field :lastname, value: @user.lastname
+
+  p
+    = f.label :username
+    = f.text_field :username, value: @user.username
+
+  p
+    = f.label :info
+    = f.text_area :info, value: @user.info
+
+  = f.submit 'Save'
