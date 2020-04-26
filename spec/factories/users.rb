@@ -27,4 +27,8 @@ FactoryBot.define do
     info
     password { '12345678' }
   end
+
+  trait :invalid do
+    firstname { nil }
+  end
 end

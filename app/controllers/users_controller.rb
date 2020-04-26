@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, except: %i(show current_user_home)
   before_action :find_user, except: %i(current_user_home)
-  #before_action :check_author
+  before_action :check_profile_owner, except: %i(show current_user_home)
 
   def show
   end
@@ -25,5 +25,9 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:firstname, :lastname, :username, :info)
+  end
+
+  def check_profile_owner
+    redirect_to root_path, alert: 'You can not do this' unless current_user.id == @user.id
   end
 end
