@@ -1,0 +1,7 @@
+<% if @user.errors.blank? %>
+  $('.notice').html('Changes successfully saved.');
+  $('.errors').empty()
+<% else %>
+  $('.notice').empty()
+  $('.errors').html('<%= render 'shared/errors', resource: @user %>');
+<% end %>
