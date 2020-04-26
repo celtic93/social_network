@@ -13,6 +13,11 @@ class UsersController < ApplicationController
     @user.update(user_params)
   end
 
+  def destroy
+    @user.destroy
+    redirect_to root_path, notice: 'Your profile successfully deleted.'
+  end
+
   def current_user_home
     redirect_to current_user || new_user_registration_path
   end

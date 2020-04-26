@@ -20,3 +20,5 @@ p Edit profile
     = f.text_area :info, value: @user.info
 
   = f.submit 'Save'
+
+p= link_to 'Delete profile', user_path(@user), method: :delete, data: {confirm: 'Are you sure?'}
