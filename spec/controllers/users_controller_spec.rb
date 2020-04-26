@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-  let(:users) { create_list(:user, 2) }
+  let!(:users) { create_list(:user, 2) }
   let(:user) { users[0] }
   let(:other_user) { users[1] }
   let(:firstname) { user.firstname }
@@ -156,6 +156,47 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it 'redirects to sign in page' do
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    context 'for authenticated user' do
+      context 'for his profile' do
+        before { login(user) }
+
+        it 'deletes the user profile' do
+          expect { delete :destroy, params: { id: user } }.to change(User, :count).by(-1)
+        end
+
+        it 'redirects to root page' do
+          delete :destroy, params: { id: user }
+          expect(response).to redirect_to root_path
+        end
+      end
+
+      context "for someone else's profile" do
+        before { login(other_user) }
+
+        it "don't delete the user profile" do
+          expect { delete :destroy, params: { id: user } }.to_not change(User, :count)
+        end
+
+        it 'redirects to root page' do
+          delete :destroy, params: { id: user }
+          expect(response).to redirect_to root_path
+        end
+      end
+    end
+
+    context 'for unauthenticated user' do
+      it "don't delete the question" do
+        expect { delete :destroy, params: { id: user } }.to_not change(User, :count)
+      end
+
+      it 'redirects to sign up page' do
+        delete :destroy, params: { id: user }
         expect(response).to redirect_to new_user_session_path
       end
     end
