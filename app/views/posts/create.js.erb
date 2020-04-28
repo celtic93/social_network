@@ -1,6 +1,6 @@
 $('.post-errors').html('<%= render 'shared/errors', resource: @post %>')
 
 <% if @post.persisted? %>
-  $('.posts').append('<%= j render @post %>')
+  $('.posts').prepend('<%= j render @post %>')
   $('#post_body').val('')
 <% end %>
