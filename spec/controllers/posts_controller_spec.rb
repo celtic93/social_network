@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe PostsController, type: :controller do
-  let(:user_post) { create(:post) }
+  let!(:user_post) { create(:post) }
   let(:other_user) { create(:user) }
   let(:user) { user_post.user }
 
@@ -123,6 +123,47 @@ RSpec.describe PostsController, type: :controller do
 
       it 'status 401: Unauthorized' do
         expect(response.status).to eq 401
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    context 'for authenticated user' do
+      context 'for his post' do
+        before { login(user) }
+
+        it 'deletes the post' do
+          expect { delete :destroy, params: { user_id: user, id: user_post }, format: :js }.to change(user.posts, :count).by(-1)
+        end
+
+        it 'renders update view' do
+          delete :destroy, params: { user_id: user, id: user_post }, format: :js
+          expect(response).to render_template :destroy
+        end
+      end
+
+      context "for someone else's post" do
+        before { login(other_user) }
+
+        it "don't delete the post" do
+          expect { delete :destroy, params: { user_id: user, id: user_post } }.to_not change(Post, :count)
+        end
+
+        it 'redirects to root page' do
+          delete :destroy, params: { user_id: user, id: user_post }
+          expect(response).to redirect_to root_path
+        end
+      end
+    end
+
+    context 'for unauthenticated user' do
+      it "don't delete the question" do
+        expect { delete :destroy, params: { user_id: user, id: user_post } }.to_not change(Post, :count)
+      end
+
+      it 'redirects to sign up page' do
+        delete :destroy, params: { user_id: user, id: user_post }
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end
