@@ -22,7 +22,7 @@ feature 'User can edit post' do
         click_on 'Save'
       end
 
-      expect(page).to_not have_content 'Post Body'
+      expect(page).to_not have_content 'Post body'
       expect(page).to have_content 'Edit Post Body'
       expect(page).to_not have_selector "textarea#post-#{post.id}"
     end
