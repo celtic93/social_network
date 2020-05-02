@@ -3,7 +3,7 @@ $(document).on('turbolinks:load', function(){
     event.preventDefault();
     var postId = $(this).data('postId');
     $(this).hide();
-    $('#post-' + postId).hide();
+    $('#post-text' + postId).hide();
     $('form#edit-post-' + postId).removeClass('hidden');
   });
 });

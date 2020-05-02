@@ -1,9 +1,13 @@
-p= link_to "#{post.user.firstname} #{post.user.lastname}", post.user
 div id="post-#{post.id}"
-  = post.body
-p= link_to 'Edit', '#', class: 'edit-post-link', data: { post_id: post.id }
+  p= link_to "#{post.user.firstname} #{post.user.lastname}", post.user
+  div class="post-#{post.id}-errors"
 
-= form_with model: [post.user, post], class: 'hidden', html: { id: "edit-post-#{post.id}" } do |f|
-  = f.text_area :body, value: post.body, id: "post-#{post.id}"
+  div id="post-text-#{post.id}"
+    = post.body
 
-  = f.submit 'Save'
+  p= link_to 'Edit', '#', class: 'edit-post-link', data: { post_id: post.id }
+
+  = form_with model: [post.user, post], class: 'hidden', html: { id: "edit-post-#{post.id}" } do |f|
+    = f.text_area :body, value: post.body, id: "post-#{post.id}"
+
+    = f.submit 'Save'
