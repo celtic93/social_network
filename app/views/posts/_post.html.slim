@@ -5,7 +5,8 @@ div id="post-#{post.id}"
   div id="post-text-#{post.id}"
     = post.body
 
-  p= link_to 'Edit', '#', class: 'edit-post-link', data: { post_id: post.id }
+  - if current_user&.author?(post)
+    p= link_to 'Edit', '#', class: 'edit-post-link', data: { post_id: post.id }
 
   = form_with model: [post.user, post], class: 'hidden', html: { id: "edit-post-#{post.id}" } do |f|
     = f.text_area :body, value: post.body, id: "post-#{post.id}"
