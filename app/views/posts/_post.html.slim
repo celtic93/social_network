@@ -8,7 +8,11 @@ div id="post-#{post.id}"
   - if current_user&.author?(post)
     p= link_to 'Edit', '#', class: 'edit-post-link', data: { post_id: post.id }
 
-  = form_with model: [post.user, post], class: 'hidden', html: { id: "edit-post-#{post.id}" } do |f|
-    = f.text_area :body, value: post.body, id: "post-#{post.id}"
+    = form_with model: [post.user, post], class: 'hidden', html: { id: "edit-post-#{post.id}" } do |f|
+      = f.text_area :body, value: post.body, id: "post-#{post.id}"
 
-    = f.submit 'Save'
+      = f.submit 'Save'
+
+    p= link_to 'Delete', [post.user, post], method: :delete,
+                                            remote: true,
+                                            data: {confirm: 'Are you sure?'}

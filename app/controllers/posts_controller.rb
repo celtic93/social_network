@@ -11,6 +11,10 @@ class PostsController < ApplicationController
     @post.update(post_params)
   end
 
+  def destroy
+    @post.destroy
+  end
+
   private
 
   def find_post
