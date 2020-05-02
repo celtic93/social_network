@@ -8,4 +8,8 @@ class User < ApplicationRecord
 
   validates :firstname, :lastname, presence: true
   validates :username, presence: true, uniqueness: true
+
+  def author?(resource)
+    id == resource.user_id
+  end
 end
