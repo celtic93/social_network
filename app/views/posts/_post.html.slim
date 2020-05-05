@@ -5,14 +5,25 @@ div id="post-#{post.id}"
   div id="post-text-#{post.id}"
     = post.body
 
+  .comments
+    = render post.comments
+
+    - if current_user
+      p= link_to 'Comment', '#', class: 'comment-post-link', data: { post_id: post.id }
+
+      = form_with model: [post, @comment], class: 'hidden', html: { id: "comment-form-post-#{post.id}" } do |f|
+        = f.text_area :body, id: "comment-post-#{post.id}"
+
+        = f.submit 'Comment'
+
   - if current_user&.author?(post)
     p= link_to 'Edit', '#', class: 'edit-post-link', data: { post_id: post.id }
 
-    = form_with model: [post.user, post], class: 'hidden', html: { id: "edit-post-#{post.id}" } do |f|
+    = form_with model: post, class: 'hidden', html: { id: "edit-post-#{post.id}" } do |f|
       = f.text_area :body, value: post.body, id: "post-#{post.id}"
 
       = f.submit 'Save'
 
-    p= link_to 'Delete', [post.user, post], method: :delete,
+    p= link_to 'Delete', post_path(post), method: :delete,
                                             remote: true,
                                             data: {confirm: 'Are you sure?'}
