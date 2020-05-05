@@ -12,6 +12,8 @@ div id="post-#{post.id}"
     - if current_user
       p= link_to 'Comment', '#', class: 'comment-post-link', data: { post_id: post.id }
 
+      div class="comment-post-#{post.id}-errors"
+
       = form_with model: [post, @comment], class: 'hidden', html: { id: "comment-form-post-#{post.id}" } do |f|
         = f.text_area :body, id: "comment-post-#{post.id}"
 

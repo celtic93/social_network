@@ -1,9 +1,10 @@
 <% commented_id = "#{@commented.class.name.underscore}-#{@commented.id}" %>
 
-$('.comment-errors').html('<%= render 'shared/errors', resource: @comment %>')
+$('.comment-<%= commented_id %>-errors').html('<%= render 'shared/errors', resource: @comment %>')
 
 <% if @comment.persisted? %>
   $(".comments-<%= commented_id %>").append('<%= j render @comment %>');
-  $("#comment-form-<%= commented_id %>").val('').addClass('hidden');
+  $("#comment-form-<%= commented_id %>").addClass('hidden');
+  $("#comment-<%= commented_id %>").val('')
   $('.comment-post-link').show();
 <% end %>
