@@ -5,9 +5,10 @@ div id="post-#{post.id}"
   div id="post-text-#{post.id}"
     = post.body
 
-  .comments
+  div class="comments-post-#{post.id}"
     = render post.comments
 
+  .comment-form
     - if current_user
       p= link_to 'Comment', '#', class: 'comment-post-link', data: { post_id: post.id }
 

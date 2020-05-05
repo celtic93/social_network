@@ -1,5 +1,5 @@
 $(document).on('turbolinks:load', function(){
-  $('.comments').on('click', '.comment-post-link', function(event){
+  $('.comment-form').on('click', '.comment-post-link', function(event){
     event.preventDefault();
     var postId = $(this).data('postId');
     $(this).hide();

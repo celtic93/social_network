@@ -1,1 +1,6 @@
-p= comment.body
+div id="comment-#{comment.id}"
+  p= link_to "#{comment.user.firstname} #{comment.user.lastname}", comment.user
+  div class="comment-#{comment.id}-errors"
+
+  div id="comment-text-#{comment.id}"
+    = comment.body
