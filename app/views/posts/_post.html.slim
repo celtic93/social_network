@@ -5,7 +5,7 @@ div id="post-#{post.id}"
   div id="post-text-#{post.id}"
     = post.body
 
-  div class="comments-post-#{post.id}"
+  div class="comments comments-post-#{post.id}"
     = render post.comments
 
   .comment-form
