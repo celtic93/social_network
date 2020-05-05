@@ -8,8 +8,11 @@ class CommentsController < ApplicationController
   end
 
   def update
-    redirect_to root_path, alert: 'You can not do this' unless current_user.author?(@comment)
-    @comment.update(comment_params)
+    if current_user.author?(@comment)
+      @comment.update(comment_params)
+    else
+      redirect_to root_path, alert: 'You can not do this' 
+    end
   end
 
   private
