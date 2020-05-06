@@ -1,0 +1,22 @@
+= link_to "#{comment.user.firstname} #{comment.user.lastname}", comment.user
+div class="comment-#{comment.id}-errors alert-danger"
+
+div id="comment-text-#{comment.id}"
+  = comment.body
+
+- if current_user&.author?(comment)
+  = form_with model: comment, class: 'hidden p-3', html: { id: "edit-form-comment-#{comment.id}" } do |f|
+    = f.text_area :body, value: comment.body, id: "edit-comment-#{comment.id}", class: 'form-control'
+
+    = f.submit 'Save', class: 'btn btn-outline-primary btn-xs mt-3 float-right mb-3'
+
+div class="btn-group" role="group"
+  - if current_user&.author?(comment)
+    p= link_to 'Edit', '#', class: 'edit-comment-link btn btn-outline-primary btn-xs',
+                            data: { comment_id: comment.id }
+
+  - if current_user&.author?(comment) || current_user&.author?(comment.commentable)
+    p= link_to 'Delete', comment_path(comment), method: :delete,
+                                                class: 'btn btn-outline-primary btn-xs',
+                                                remote: true,
+                                                data: {confirm: 'Are you sure?'}

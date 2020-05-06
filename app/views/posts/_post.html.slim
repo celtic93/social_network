@@ -1,38 +1,37 @@
-div id="post-#{post.id}"
-  div class="card mb-3"
-    div class="card-header" 
-      h5= link_to "#{post.user.firstname} #{post.user.lastname}", post.user
+div class="card mb-3" id="post-#{post.id}"
+  div class="card-header" 
+    h5= link_to "#{post.user.firstname} #{post.user.lastname}", post.user
 
-    div class="post-#{post.id}-errors alert-danger"
+  div class="post-#{post.id}-errors alert-danger"
 
-    div class="card-body" id="post-text-#{post.id}"
-      = post.body
+  div class="card-body" id="post-text-#{post.id}"
+    = post.body
 
-    div class="comments comments-post-#{post.id} list-group list-group-flush"
-      = render post.comments
+  .comment-form
+    div class="comment-post-#{post.id}-errors alert-danger"
 
-    .comment-form
-      div class="comment-post-#{post.id}-errors alert-danger"
+    = form_with model: [post, @comment], class: 'hidden p-3', html: { id: "comment-form-post-#{post.id}" } do |f|
+      = f.text_area :body, id: "comment-post-#{post.id}", class: 'form-control'
 
-      = form_with model: [post, @comment], class: 'hidden p-3', html: { id: "comment-form-post-#{post.id}" } do |f|
-        = f.text_area :body, id: "comment-post-#{post.id}", class: 'form-control'
-
-        = f.submit 'Comment', class: 'btn btn-outline-primary mt-3 float-right mb-3'
+      = f.submit 'Comment', class: 'btn btn-outline-primary mt-3 float-right mb-3'
     
-      div class="btn-group p-3" role="group"
-        - if current_user
-          = link_to 'Comment', '#', class: 'comment-post-link btn btn-outline-primary',
+    div class="btn-group p-3" role="group"
+      - if current_user
+        = link_to 'Comment', '#', class: 'comment-post-link btn btn-outline-primary',
                                      data: { post_id: post.id }
 
-        - if current_user&.author?(post)
-          = link_to 'Edit', '#', class: 'edit-post-link btn btn-outline-primary', data: { post_id: post.id }
+      - if current_user&.author?(post)
+        = link_to 'Edit', '#', class: 'edit-post-link btn btn-outline-primary', data: { post_id: post.id }
 
-          = form_with model: post, class: 'hidden p-3', html: { id: "edit-post-#{post.id}" } do |f|
-            = f.text_area :body, value: post.body, id: "post-#{post.id}", class: 'form-control'
+        = form_with model: post, class: 'hidden p-3', html: { id: "edit-post-#{post.id}" } do |f|
+          = f.text_area :body, value: post.body, id: "post-#{post.id}", class: 'form-control'
 
-            = f.submit 'Save', class: 'btn btn-outline-primary mt-3 float-right'
+          = f.submit 'Save', class: 'btn btn-outline-primary mt-3 float-right'
 
-          = link_to 'Delete', post_path(post), method: :delete,
-                                                class: 'btn btn-outline-primary',
-                                                remote: true,
-                                                data: {confirm: 'Are you sure?'}
+        = link_to 'Delete', post_path(post), method: :delete,
+                                              class: 'btn btn-outline-primary',
+                                              remote: true,
+                                              data: {confirm: 'Are you sure?'}
+
+  div class="comments comments-post-#{post.id} list-group list-group-flush"
+    = render post.comments

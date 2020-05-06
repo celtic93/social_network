@@ -3,7 +3,7 @@ div class="container col-md-6"
   p= "#{@user.info}"
 
   - if current_user&.id == @user.id
-    .post-errors
+    div class="post-errors alert-danger"
   
     div class="card form-group mt-3 p-3"
       = form_with model: [@user, @post], class: 'new-post' do |f|
