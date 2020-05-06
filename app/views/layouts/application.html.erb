@@ -11,10 +11,15 @@
   </head>
 
   <body>
-    <%= render 'layouts/menu' %>
-    
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= yield %>
+    <div class="container">
+      <%= render 'layouts/menu' %>
+
+      <div class="container col-md-6 mt-3">
+        <p class="notice alert-success"><%= notice %></p>
+        <p class="alert-danger"><%= alert %></p>
+      </div>
+
+      <%= yield %>
+    </div> 
   </body>
 </html>
