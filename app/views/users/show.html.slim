@@ -3,8 +3,6 @@ div class="container col-md-6"
   p= "#{@user.info}"
 
   - if current_user&.id == @user.id
-    =link_to 'Edit profile', edit_user_path(@user)
-
     .post-errors
   
     div class="form-group mt-3"
