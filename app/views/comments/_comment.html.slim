@@ -12,3 +12,8 @@ div id="comment-#{comment.id}"
       = f.text_area :body, value: comment.body, id: "edit-comment-#{comment.id}"
 
       = f.submit 'Save'
+
+  - if current_user&.author?(comment) || current_user&.author?(comment.commentable)
+    p= link_to 'Delete', comment_path(comment), method: :delete,
+                                            remote: true,
+                                            data: {confirm: 'Are you sure?'}
