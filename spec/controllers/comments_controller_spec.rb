@@ -4,7 +4,9 @@ RSpec.describe CommentsController, type: :controller do
   let(:user_post) { create(:post) }
   let(:user) { user_post.user }
   let(:other_user) { create(:user) }
+  let(:other_post) { create(:post, user: other_user) }
   let!(:comment) { create(:comment, user: user, commentable: user_post) }
+  let!(:comment_of_his_post) { create(:comment, user: other_user, commentable: user_post) }
 
   describe 'POST #create' do
     context 'with valid attributes' do
@@ -131,6 +133,60 @@ RSpec.describe CommentsController, type: :controller do
 
       it 'status 401: Unauthorized' do
         expect(response.status).to eq 401
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    context 'for authenticated user' do
+      context 'for his comment' do
+        before { login(user) }
+
+        it 'deletes the comment' do
+          expect { delete :destroy, params: { id: comment }, format: :js }.to change(user.comments, :count).by(-1)
+        end
+
+        it 'renders update view' do
+          delete :destroy, params: { id: comment }, format: :js
+          expect(response).to render_template :destroy
+        end
+      end
+
+      context "for someone else's comment of his post" do
+        before { login(user) }
+
+        it 'deletes the comment' do
+          expect { delete :destroy, params: { id: comment_of_his_post }, format: :js }.to change(other_user.comments, :count).by(-1)
+        end
+
+        it 'renders update view' do
+          delete :destroy, params: { id: comment_of_his_post }, format: :js
+          expect(response).to render_template :destroy
+        end
+      end
+
+      context "for someone else's comment" do
+        before { login(other_user) }
+
+        it "don't delete the comment" do
+          expect { delete :destroy, params: { id: comment } }.to_not change(Comment, :count)
+        end
+
+        it 'redirects to root page' do
+          delete :destroy, params: { id: comment }
+          expect(response).to redirect_to root_path
+        end
+      end
+    end
+
+    context 'for unauthenticated user' do
+      it "don't delete the comment" do
+        expect { delete :destroy, params: { id: comment } }.to_not change(Comment, :count)
+      end
+
+      it 'redirects to sign up page' do
+        delete :destroy, params: { id: comment }
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end
