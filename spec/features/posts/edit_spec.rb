@@ -45,7 +45,10 @@ feature 'User can edit post' do
       sign_in(user)
       visit user_path(other_user)
       expect(page).to have_content other_post.body
-      expect(page).to_not have_link 'Edit'
+
+      within '.posts' do
+        expect(page).to_not have_link 'Edit'
+      end
     end
   end
 

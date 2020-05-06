@@ -11,7 +11,7 @@ feature 'User can create post' do
       expect(page).to_not have_content 'Post Body'
 
       within '.new-post' do
-        fill_in 'Body', with: 'Post Body'
+        fill_in id: "post_body", with: 'Post Body'
         click_on 'Post'
       end
 
@@ -25,7 +25,7 @@ feature 'User can create post' do
       sign_in(user)
       
       within '.new-post' do
-        fill_in 'Body', with: ''
+        fill_in id: "post_body", with: ''
         click_on 'Post'
       end
 
