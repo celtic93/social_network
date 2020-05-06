@@ -1,1 +1,9 @@
 @import 'bootstrap/dist/css/bootstrap';
+
+textarea { 
+  resize: none;
+}
+
+.dropdown-divider {
+  border-width: 2px;
+}
