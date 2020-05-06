@@ -1,4 +1,4 @@
-div id="comment-#{comment.id}"
+div class="list-group-item" id="comment-#{comment.id}"
   p= link_to "#{comment.user.firstname} #{comment.user.lastname}", comment.user
   div class="comment-#{comment.id}-errors"
 
