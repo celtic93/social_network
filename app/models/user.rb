@@ -14,4 +14,8 @@ class User < ApplicationRecord
   def author?(resource)
     id == resource.user_id
   end
+
+  def liked?(resource)
+    likes.exists?(likeable: resource)
+  end
 end
