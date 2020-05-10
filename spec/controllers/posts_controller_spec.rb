@@ -46,12 +46,12 @@ RSpec.describe PostsController, type: :controller do
     context 'for unauthenticated user' do
       it 'does not save a new post in database' do
         expect { post :create, params: { user_id: user,
-                                         post: attributes_for(:post, :invalid) }, format: :js }.to_not change(user.posts, :count)
+                                         post: attributes_for(:post) }, format: :js }.to_not change(user.posts, :count)
       end
 
       it 'redirects to sign up page' do
         post :create, params: { user_id: user,
-                                post: attributes_for(:post, :invalid) }
+                                post: attributes_for(:post) }
 
         expect(response).to redirect_to new_user_session_path
       end

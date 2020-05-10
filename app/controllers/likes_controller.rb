@@ -1,4 +1,5 @@
 class LikesController < ApplicationController
+  before_action :authenticate_user!
   before_action :find_liked, only: %i(create)
 
   def create
