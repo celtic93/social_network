@@ -4,6 +4,8 @@ RSpec.describe User, type: :model do
   describe 'validations' do
     it { should have_many :posts }
     it { should have_many :comments }
+    it { should have_many :likes }
+
     it { should validate_presence_of :firstname }
     it { should validate_presence_of :lastname }
     it { should validate_presence_of :username }

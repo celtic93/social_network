@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Post, type: :model do
   it_behaves_like 'commentable'
+  it_behaves_like 'likeable'
 
   it { should belong_to :user }
   it { should validate_presence_of :body }
