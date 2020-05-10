@@ -1,0 +1,3 @@
+<% if @like.persisted? %>
+  $('.<%= "like-post-#{@liked.id}-link" %>').html('<%= j render @like, post: @liked %>')
+<% end %>

@@ -1,0 +1,4 @@
+= link_to "#{post.likes.count} ❤", post_likes_path(post),
+                                   class: 'like-post-link btn btn-outline-primary',
+                                   method: :post,
+                                   remote: true
