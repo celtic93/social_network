@@ -16,6 +16,10 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:user)).to eq user
     end
 
+    it 'assigns a new post to @post' do
+      expect(assigns(:post)).to be_a_new(Post)
+    end
+
     it 'renders show view' do
       expect(response).to render_template :show
     end

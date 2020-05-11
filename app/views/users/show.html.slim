@@ -3,3 +3,15 @@ p= "#{@user.info}"
 
 - if current_user&.id == @user.id
   =link_to 'Edit profile', edit_user_path(@user)
+
+  .post-errors
+  
+  = form_with model: [@user, @post], class: 'new-post' do |f|
+    p
+      = f.label :body
+      = f.text_area :body
+
+    p= f.submit 'Post'
+
+.posts
+  = render @user.posts

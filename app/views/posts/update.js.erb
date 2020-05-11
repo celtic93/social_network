@@ -1,0 +1,6 @@
+<% if @post.errors.blank? %>
+  $('#edit-post-<%= @post.id %>').addClass('hidden');
+  $('#post-<%= @post.id %>').show().empty().append('<%= j render @post %>');
+<% else %>
+  $('.post-<%= @post.id %>-errors').html('<%= render 'shared/errors', resource: @post %>');
+<% end %>

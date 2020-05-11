@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_action :check_profile_owner, except: %i(show current_user_home)
 
   def show
+    @post = Post.new
   end
 
   def edit
