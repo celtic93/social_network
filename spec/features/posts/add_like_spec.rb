@@ -10,7 +10,7 @@ feature 'User can like post' do
     within ".like-post-#{post.id}-link" do
       expect(page).to_not have_content '1 ❤'
       click_on '0 ❤'
-      expect(page).to have_content '1 ❤'
+      expect(page).to have_content '1 💛'
     end
   end
 

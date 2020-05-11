@@ -1,10 +1,10 @@
--unless current_user&.liked?(post)
-  = link_to "#{post.likes.count} ❤", post_likes_path(post),
-                                     class: 'like-post-link btn btn-outline-primary',
+-unless current_user&.liked?(resource)
+  = link_to "#{resource.likes.count} ❤", post_likes_path(resource),
+                                     class: "like-#{resource.class.name.downcase}-link btn btn-outline-primary",
                                      method: :post,
                                      remote: true
 -else
-  = link_to "#{post.likes.count} 💛", like_path(id: post, likeable_type: post.class.name),
-                                     class: 'like-post-link btn btn-danger',
+  = link_to "#{resource.likes.count} 💛", like_path(id: resource, likeable_type: resource.class.name),
+                                     class: "like-#{resource.class.name.downcase}-link btn btn-danger",
                                      method: :delete,
                                      remote: true
