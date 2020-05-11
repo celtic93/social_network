@@ -8,7 +8,11 @@ class LikesController < ApplicationController
   end
 
   def destroy
-    @like.destroy
+    if @like
+      @like.destroy
+    else
+      redirect_to root_path, alert: 'You can not do this'
+    end
   end
 
   private

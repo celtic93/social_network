@@ -146,7 +146,7 @@ RSpec.describe PostsController, type: :controller do
           expect { delete :destroy, params: { user_id: user, id: user_post }, format: :js }.to change(user.posts, :count).by(-1)
         end
 
-        it 'renders update view' do
+        it 'renders destroy view' do
           delete :destroy, params: { user_id: user, id: user_post }, format: :js
           expect(response).to render_template :destroy
         end
@@ -167,7 +167,7 @@ RSpec.describe PostsController, type: :controller do
     end
 
     context 'for unauthenticated user' do
-      it "don't delete the question" do
+      it "don't delete the post" do
         expect { delete :destroy, params: { user_id: user, id: user_post } }.to_not change(Post, :count)
       end
 
