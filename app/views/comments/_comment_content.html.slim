@@ -11,6 +11,10 @@ div id="comment-text-#{comment.id}"
     = f.submit 'Save', class: 'btn btn-outline-primary btn-xs mt-3 float-right mb-3'
 
 div class="btn-group" role="group"
+  - if current_user
+    div class="like-comment-#{comment.id}-link"
+      = render 'likes/like', resource: comment
+
   - if current_user&.author?(comment)
     p= link_to 'Edit', '#', class: 'edit-comment-link btn btn-outline-primary btn-xs',
                             data: { comment_id: comment.id }
