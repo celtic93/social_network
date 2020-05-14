@@ -7,6 +7,15 @@ class User < ApplicationRecord
   has_many :posts
   has_many :comments
   has_many :likes
+  has_many :friendships
+  has_many :friends, -> { where(friendships: {status: 'accepted'}) },
+                     through: :friendships
+  has_many :requested_friends, -> { where(friendships: {status: 'requested'}) },
+                               through: :friendships,
+                               source: :friend
+  has_many :pending_friends, -> { where(friendships: {status: 'pending'}) },
+                                  through: :friendships,
+                                  source: :friend
 
   validates :firstname, :lastname, presence: true
   validates :username, presence: true, uniqueness: true
