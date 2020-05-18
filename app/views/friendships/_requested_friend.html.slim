@@ -1,0 +1,6 @@
+li class="list-group-item" id="requested-friend-#{friend.id}"
+  h5= link_to "#{friend.firstname} #{friend.lastname}", friend
+  
+  div class="btn-group" role="group"
+    = render 'friendships/accept_link', user: friend
+    = render 'friendships/reject_link', user: friend

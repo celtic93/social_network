@@ -9,6 +9,14 @@ Rails.application.routes.draw do
       
       resources :likes, shallow: true, only: %i(create destroy)
     end
+
+    resources :friendships, only: %i(index destroy) do
+      get 'make_request', on: :collection
+      get 'accept', on: :collection
+      get 'reject', on: :collection
+      get 'cancel', on: :collection
+      get 'unfriend', on: :collection
+    end
   end
 
   root to: 'users#current_user_home'
