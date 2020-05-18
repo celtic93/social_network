@@ -5,6 +5,15 @@ RSpec.describe User, type: :model do
     it { should have_many :posts }
     it { should have_many :comments }
     it { should have_many :likes }
+    it { should have_many :friendships }
+    it { should have_many(:friends).conditions(friendships: {status: 'accepted'}).
+                                    through(:friendships) }
+    it { should have_many(:requested_friends).conditions(friendships: {status: 'requested'}).
+                                              through(:friendships).
+                                              source(:friend) }
+    it { should have_many(:pending_friends).conditions(friendships: {status: 'pending'}).
+                                            through(:friendships).
+                                            source(:friend) }
 
     it { should validate_presence_of :firstname }
     it { should validate_presence_of :lastname }
