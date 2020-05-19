@@ -4,11 +4,11 @@ div class="container col-md-6"
 
   - unless current_user&.id == @user.id
     .friend-link
-      - if current_user.friends.include?(@user)
+      - if current_user&.friends&.include?(@user)
         = render 'friendships/unfriend_link', user: @user
-      - elsif current_user.pending_friends.include?(@user)
+      - elsif current_user&.pending_friends&.include?(@user)
         = render 'friendships/cancel_request_link', user: @user
-      - elsif current_user.requested_friends.include?(@user)
+      - elsif current_user&.requested_friends&.include?(@user)
         = render 'friendships/accept_link', user: @user
       - else
         = render 'friendships/add_friend_link', user: @user
