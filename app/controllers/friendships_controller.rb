@@ -1,4 +1,6 @@
 class FriendshipsController < ApplicationController
+  protect_from_forgery only: :index
+
   before_action :authenticate_user!
   before_action :find_user
 
