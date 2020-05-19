@@ -11,25 +11,29 @@ class Friendship < ApplicationRecord
   end
 
   def self.request(user, friend)
-    unless user == friend or Friendship.requested?(user, friend)
+    unless user == friend || Friendship.requested?(user, friend)
       transaction do
-        create(user: user, friend: friend, :status => 'pending')
-        create(user: friend, friend: user, :status => 'requested')
+        create(user: user, friend: friend, status: 'pending')
+        create(user: friend, friend: user, status: 'requested')
       end
     end
   end
 
   def self.accept(user, friend)
-    transaction do
-      accept_one_side(user, friend)
-      accept_one_side(friend, user)
+    if user != friend && Friendship.requested?(user, friend)
+      transaction do
+        accept_one_side(user, friend)
+        accept_one_side(friend, user)
+      end
     end
   end
 
   def self.breakup(user, friend)
-    transaction do
-      find_by(user: user, friend: friend).destroy
-      find_by(user: friend, friend: user).destroy
+    if user != friend && Friendship.requested?(user, friend)
+      transaction do
+        find_by(user: user, friend: friend).destroy
+        find_by(user: friend, friend: user).destroy
+      end
     end
   end
 
