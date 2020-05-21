@@ -41,7 +41,7 @@ feature 'User can accept request for friendship' do
     end
   end
 
-  scenario 'Unauthenticated user tryes to make request' do
+  scenario 'Unauthenticated user tryes to accept request' do
     visit user_path(user)
     expect(page).to_not have_selector '.friend-link'
     expect(page).to_not have_content 'Accept'
