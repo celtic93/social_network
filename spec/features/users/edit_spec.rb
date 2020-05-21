@@ -56,7 +56,7 @@ feature 'User can edit profile' do
       sign_in(user)
       visit user_path(other_user)
 
-      expect(page).to_not have_link 'Edit profile'
+      expect(page).to_not have_link 'Edit profile', href: edit_user_path(other_user)
     end
   end
 

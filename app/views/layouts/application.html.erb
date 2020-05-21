@@ -6,14 +6,20 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <%= render 'layouts/header' %>
-    
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= yield %>
+    <div class="container">
+      <%= render 'layouts/menu' %>
+
+      <div class="container col-md-6 mt-3">
+        <p class="notice alert-success"><%= notice %></p>
+        <p class="alert-danger"><%= alert %></p>
+      </div>
+
+      <%= yield %>
+    </div> 
   </body>
 </html>
