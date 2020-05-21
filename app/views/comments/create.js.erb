@@ -6,5 +6,5 @@ $('.comment-<%= commented_id %>-errors').html('<%= render 'shared/errors', resou
   $(".comments-<%= commented_id %>").append('<%= j render @comment %>');
   $("#comment-form-<%= commented_id %>").addClass('hidden');
   $("#comment-<%= commented_id %>").val('')
-  $('.comment-post-link').show();
+  $('.comment-link').show();
 <% end %>

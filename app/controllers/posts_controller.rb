@@ -5,12 +5,12 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.create(post_params)
-    @comment = Comment.new
+    @new_comment = Comment.new
   end
 
   def update
     @post.update(post_params)
-    @comment = Comment.new
+    @new_comment = Comment.new
   end
 
   def destroy

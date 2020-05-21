@@ -15,10 +15,10 @@ RSpec.describe PostsController, type: :controller do
 
       end
 
-      it 'assigns a new comment to @comment' do
+      it 'assigns a new comment to @new_comment' do
         post :create, params: { user_id: user,
                                 post: attributes_for(:post), format: :js }
-        expect(assigns(:comment)).to be_a_new(Comment)
+        expect(assigns(:new_comment)).to be_a_new(Comment)
       end
 
       it 'renders create' do
@@ -65,8 +65,8 @@ RSpec.describe PostsController, type: :controller do
         patch :update, params: { id: user_post, user_id: user, post: { body: 'New body' } }, format: :js
       end
 
-      it 'assigns a new comment to @comment' do
-        expect(assigns(:comment)).to be_a_new(Comment)
+      it 'assigns a new comment to @new_comment' do
+        expect(assigns(:new_comment)).to be_a_new(Comment)
       end
 
       it 'assigns the requested post to @post' do

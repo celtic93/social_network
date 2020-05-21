@@ -18,6 +18,14 @@ RSpec.describe CommentsController, type: :controller do
                                          user: user }, format: :js }.to change(user_post.comments, :count).by(1)
       end
 
+      it 'assigns a new comment to @new_comment' do
+        post :create, params: { comment: attributes_for(:comment),
+                                post_id: user_post,
+                                user: user }, format: :js
+
+        expect(assigns(:new_comment)).to be_a_new(Comment)
+      end
+
       it 'renders create view' do
         post :create, params: { comment: attributes_for(:comment),
                                 post_id: user_post,
@@ -34,6 +42,14 @@ RSpec.describe CommentsController, type: :controller do
         expect { post :create, params: { comment: attributes_for(:comment, :invalid),
                                          post_id: user_post,
                                          user: user }, format: :js }.to_not change(user_post.comments, :count)
+      end
+
+      it 'assigns a new comment to @new_comment' do
+        post :create, params: { comment: attributes_for(:comment, :invalid),
+                                post_id: user_post,
+                                user: user }, format: :js
+                                
+        expect(assigns(:new_comment)).to be_a_new(Comment)
       end
 
       it 'renders create view' do
@@ -73,6 +89,10 @@ RSpec.describe CommentsController, type: :controller do
         expect(assigns(:comment)).to eq comment
       end
 
+      it 'assigns a new comment to @new_comment' do
+        expect(assigns(:new_comment)).to be_a_new(Comment)
+      end
+
       it 'changes comment attributes' do
         comment.reload
         expect(comment.body).to eq 'New body'
@@ -93,6 +113,10 @@ RSpec.describe CommentsController, type: :controller do
 
       it 'assigns the requested comment to @comment' do
         expect(assigns(:comment)).to eq comment
+      end
+
+      it 'assigns a new comment to @new_comment' do
+        expect(assigns(:new_comment)).to be_a_new(Comment)
       end
 
       it 'does not change comment' do
