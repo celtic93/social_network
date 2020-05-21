@@ -16,6 +16,7 @@ feature 'User can delete post' do
         click_on 'Delete'
         accept_alert 'Are you sure?'
         expect(page).to_not have_content 'Post body'
+        expect(page).to have_content 'Post successfully deleted.'
       end
     end
 

@@ -1,0 +1,6 @@
+<% if @comment.errors.blank? %>
+  $('#edit-form-comment-<%= @comment.id %>').addClass('hidden');
+  $('#comment-<%= @comment.id %>').show().empty().append('<%= j render 'comments/comment_content', comment: @comment %>');
+<% else %>
+  $('.comment-<%= @comment.id %>-errors').html('<%= render 'shared/errors', resource: @comment %>');
+<% end %>
