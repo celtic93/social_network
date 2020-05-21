@@ -2,14 +2,14 @@ require 'rails_helper'
 
 feature 'User can create comment for comment' do
   given(:post) { create(:post) }
-  given(:comment) { create(:comment, commentable: post) }
+  given!(:comment) { create(:comment, commentable: post) }
   given(:user) { post.user }
 
   describe 'Authenticated user tryes to create comment' do
     scenario 'with valid attributes', js: true do
       sign_in(user)
-
-      within "#comment-#{comment.id}"
+      
+      within "#comment-#{comment.id}" do
         expect(page).to_not have_content 'This is comment'
         expect(page).to_not have_selector "#comment-form-comment-#{comment.id}"
 
@@ -30,7 +30,7 @@ feature 'User can create comment for comment' do
     scenario 'with invalid attributes', js: true do
       sign_in(user)
 
-      within "#comment-#{comment.id}"
+      within "#comment-#{comment.id}" do
         expect(page).to_not have_content 'This is comment'
         expect(page).to_not have_selector "#comment-form-comment-#{comment.id}"
 
