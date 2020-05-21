@@ -5,6 +5,8 @@ div id="comment-text-#{comment.id}"
   = comment.body
 
 .comment-form
+  div class="comment-comment-#{comment.id}-errors alert-danger"
+
   = form_with model: [comment, @new_comment], class: 'hidden p-3', html: { id: "comment-form-comment-#{comment.id}" } do |f|
     = f.text_area :body, id: "comment-comment-#{comment.id}", class: 'form-control'
 
