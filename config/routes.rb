@@ -20,5 +20,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :friendship_requests, only: %i(create destroy)
+  
   root to: 'users#current_user_home'
 end

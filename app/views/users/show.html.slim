@@ -6,12 +6,12 @@ div class="container col-md-6"
     .friend-link
       - if current_user&.friends&.include?(@user)
         = render 'friendships/unfriend_link', user: @user
-      - elsif current_user&.pending_friends&.include?(@user)
-        = render 'friendships/cancel_request_link', user: @user
       - elsif current_user&.requested_friends&.include?(@user)
+        = render 'friendship_requests/cancel_request_link', user: @user
+      - elsif current_user&.pending_friends&.include?(@user)
         = render 'friendships/accept_link', user: @user
       - else
-        = render 'friendships/add_friend_link', user: @user
+        = render 'friendship_requests/add_friend_link', user: @user
 
   - if current_user&.id == @user.id
     div class="post-errors alert-danger"
