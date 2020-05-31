@@ -37,14 +37,13 @@ ActiveRecord::Schema.define(version: 2020_05_31_091411) do
   end
 
   create_table "friendships", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "friend_id"
-    t.string "status", null: false
+    t.bigint "friend_a_id"
+    t.bigint "friend_b_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["friend_id"], name: "index_friendships_on_friend_id"
-    t.index ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true
-    t.index ["user_id"], name: "index_friendships_on_user_id"
+    t.index ["friend_a_id", "friend_b_id"], name: "index_friendships_on_friend_a_id_and_friend_b_id", unique: true
+    t.index ["friend_a_id"], name: "index_friendships_on_friend_a_id"
+    t.index ["friend_b_id"], name: "index_friendships_on_friend_b_id"
   end
 
   create_table "likes", force: :cascade do |t|
