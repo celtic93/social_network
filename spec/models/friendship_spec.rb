@@ -7,7 +7,6 @@ RSpec.describe Friendship, type: :model do
   subject { FactoryBot.build(:friendship) }
   it { should validate_presence_of :status }
   it { should validate_uniqueness_of(:user_id).scoped_to(:friend_id) }
-  it { should validate_uniqueness_of(:friend_id).scoped_to(:user_id) }
 
   let(:users) { create_list(:user, 2) }
   let!(:friendship) { create(:friendship, :requested) }

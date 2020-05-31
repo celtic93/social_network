@@ -4,7 +4,6 @@ class Friendship < ApplicationRecord
 
   validates :status, presence: true
   validates :user_id, uniqueness: { scope: :friend_id }
-  validates :friend_id, uniqueness: { scope: :user_id }
 
   def self.requested?(user, friend)
     find_by(user: user, friend: friend).present?

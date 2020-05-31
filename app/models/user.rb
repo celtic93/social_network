@@ -10,12 +10,13 @@ class User < ApplicationRecord
   has_many :friendships
   has_many :friends, -> { where(friendships: {status: 'accepted'}) },
                      through: :friendships
-  has_many :requested_friends, -> { where(friendships: {status: 'requested'}) },
-                               through: :friendships,
-                               source: :friend
-  has_many :pending_friends, -> { where(friendships: {status: 'pending'}) },
-                                  through: :friendships,
-                                  source: :friend
+  has_many :friendship_requests, ->(user) { unscope(where: :user_id).where("requestor_id = ? OR receiver_id = ?", user.id, user.id) }
+  has_many :requested_friends, ->(user) { where("receiver_id != ?", user.id) },
+                               through: :friendship_requests,
+                               source: :receiver
+  has_many :pending_friends, ->(user) { where("requestor_id != ?", user.id) },
+                             through: :friendship_requests,
+                             source: :requestor
 
   validates :firstname, :lastname, presence: true
   validates :username, presence: true, uniqueness: true
