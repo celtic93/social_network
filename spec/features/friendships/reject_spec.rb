@@ -1,10 +1,9 @@
 require 'rails_helper'
 
 feature 'User can reject request for friendship' do
-  given(:friendship) { create(:friendship, :requested) }
-  given(:user) { friendship.user }
-  given(:friend) { friendship.friend }
-  given!(:friendship_2) { create(:friendship, :pending, user: friend, friend: user) }
+  given(:friendship_request) { create(:friendship_request) }
+  given(:user) { friendship_request.receiver }
+  given(:friend) { friendship_request.requestor }
 
   describe 'Authenticated user tryes to reject request', js: true do
     scenario 'on his friends page', js: true do
@@ -15,7 +14,7 @@ feature 'User can reject request for friendship' do
       expect(page).to_not have_content friend.firstname
       expect(page).to_not have_content friend.lastname
 
-      click_on 'Requests'
+      click_on 'Pending'
       expect(page).to have_content friend.firstname
       expect(page).to have_content friend.lastname
 
