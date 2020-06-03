@@ -20,7 +20,10 @@ class FriendshipRequestsController < ApplicationController
 
   def check_request
     find_request
-    redirect_to root_path, notice: 'You can not do this' if @friendship_request
+
+    if @friendship_request || current_user.friends.include?(@user)
+      redirect_to root_path, notice: 'You can not do this'
+    end
   end
 
   def find_request

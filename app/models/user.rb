@@ -14,11 +14,11 @@ class User < ApplicationRecord
   has_many :friends_b, ->(user) { where("friend_b_id != ?", user.id) },
                        through: :friendships,
                        source: :friend_b
-  has_many :friendship_requests, ->(user) { where("requestor_id = ? OR receiver_id = ?", user.id, user.id) }
-  has_many :requested_friends, ->(user) { where("receiver_id != ?", user.id) },
+  has_many :friendship_requests, ->(user) { unscope(where: :user_id).where("requestor_id = ? OR receiver_id = ?", user.id, user.id) }
+  has_many :requested_friends, ->(user) { unscope(where: :user_id).where("receiver_id != ?", user.id) },
                                through: :friendship_requests,
                                source: :receiver
-  has_many :pending_friends, ->(user) { where("requestor_id != ?", user.id) },
+  has_many :pending_friends, ->(user) { unscope(where: :user_id).where("requestor_id != ?", user.id) },
                              through: :friendship_requests,
                              source: :requestor
 
