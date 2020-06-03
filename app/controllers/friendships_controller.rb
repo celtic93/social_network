@@ -2,7 +2,9 @@ class FriendshipsController < ApplicationController
   protect_from_forgery only: :index
 
   before_action :authenticate_user!
-  before_action :find_user
+  before_action :find_user, except: :destroy
+  before_action :find_request, only: :create
+  before_action :find_friendship, only: :destroy
 
   def index
     if current_user.id == @user.id
@@ -14,37 +16,32 @@ class FriendshipsController < ApplicationController
     end
   end
 
-  def make_request
-    Friendship.request(current_user, @user)
-  end
-
-  def accept
-    if current_user.requested_friends.include?(@user)
-      Friendship.accept(current_user, @user)
+  def create
+    if @friendship_request
+      Friendship.transaction do
+        @friendship_request.destroy
+        Friendship.create!(friend_a: current_user, friend_b: @user)
+      end
     end
   end
 
-  def reject
-    if current_user.requested_friends.include?(@user)
-      Friendship.breakup(current_user, @user)
-    end
-  end
-
-  def cancel
-    if current_user.pending_friends.include?(@user)
-      Friendship.breakup(current_user, @user)
-    end
-  end
-
-  def unfriend
-    if current_user.friends.include?(@user)
-      Friendship.breakup(current_user, @user)
-    end
+  def destroy
+    @friendship.destroy
   end
 
   private
 
   def find_user
     @user = User.find(params[:user_id])
+  end
+
+  def find_request
+    @friendship_request = FriendshipRequest.find_by(requestor: @user, receiver: current_user)
+  end
+
+  def find_friendship
+    @user = User.find(params[:id])
+    @friendship = Friendship.find_by(friend_a: @user, friend_b: current_user) ||
+                  Friendship.find_by(friend_b: @user, friend_a: current_user)
   end
 end
