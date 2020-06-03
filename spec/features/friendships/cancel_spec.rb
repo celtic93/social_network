@@ -1,10 +1,9 @@
 require 'rails_helper'
 
 feature 'User can cancel request for friendship' do
-  given(:friendship) { create(:friendship, :pending) }
-  given(:user) { friendship.user }
-  given(:friend) { friendship.friend }
-  given!(:friendship_2) { create(:friendship, :requested, user: friend, friend: user) }
+  given(:friendship_request) { create(:friendship_request) }
+  given(:user) { friendship_request.requestor }
+  given(:friend) { friendship_request.receiver }
 
   describe 'Authenticated user tryes to cancel request', js: true do
     scenario 'on user profile page', js: true do
@@ -26,7 +25,7 @@ feature 'User can cancel request for friendship' do
       expect(page).to_not have_content friend.firstname
       expect(page).to_not have_content friend.lastname
       
-      click_on 'Pending'
+      click_on 'Requests'
 
       expect(page).to have_content friend.firstname
       expect(page).to have_content friend.lastname

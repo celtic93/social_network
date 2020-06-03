@@ -2,9 +2,8 @@ require 'rails_helper'
 
 feature 'User can unfriend friend' do
   given(:friendship) { create(:friendship) }
-  given(:user) { friendship.user }
-  given(:friend) { friendship.friend }
-  given!(:friendship_2) { create(:friendship, user: friend, friend: user) }
+  given(:user) { friendship.friend_a }
+  given(:friend) { friendship.friend_b }
 
   describe 'Authenticated user tryes to unfriend friend', js: true do
     scenario 'on friend profile page', js: true do
