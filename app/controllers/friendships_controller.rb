@@ -1,6 +1,4 @@
 class FriendshipsController < ApplicationController
-  protect_from_forgery only: :index
-
   before_action :authenticate_user!
   before_action :find_user, except: :destroy
   before_action :find_request, only: :create
@@ -26,7 +24,7 @@ class FriendshipsController < ApplicationController
   end
 
   def destroy
-    @friendship.destroy
+    @friendship.destroy if @friendship
   end
 
   private
