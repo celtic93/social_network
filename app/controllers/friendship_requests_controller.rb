@@ -1,15 +1,16 @@
 class FriendshipRequestsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_user
+  before_action :find_request
   before_action :check_request, only: :create
-  before_action :find_request, only: :destroy
+  
 
   def create
     @friendship_request = FriendshipRequest.create(requestor: current_user, receiver: @user)
   end
 
   def destroy
-    @friendship_request.destroy
+    @friendship_request.destroy if @friendship_request
   end
 
   private
@@ -19,8 +20,6 @@ class FriendshipRequestsController < ApplicationController
   end
 
   def check_request
-    find_request
-
     if @friendship_request || current_user.friends.include?(@user)
       redirect_to root_path, notice: 'You can not do this'
     end
