@@ -5,11 +5,13 @@ class CommentsController < ApplicationController
 
   def create
     @comment = @commented.comments.create(comment_params.merge(user: current_user))
+    @new_comment = Comment.new
   end
 
   def update
     if current_user.author?(@comment)
       @comment.update(comment_params)
+      @new_comment = Comment.new
     else
       redirect_to root_path, alert: 'You can not do this' 
     end
@@ -30,7 +32,7 @@ class CommentsController < ApplicationController
   end
 
   def find_commented
-    klass = [Post].find {|c| params["#{c.name.underscore}_id"] }
+    klass = [Post, Comment].find {|c| params["#{c.name.underscore}_id"] }
     @commented = klass.find(params["#{klass.name.underscore}_id"])
   end
 

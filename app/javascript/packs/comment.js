@@ -1,9 +1,11 @@
 $(document).on('turbolinks:load', function(){
-  $('.comment-form').on('click', '.comment-post-link', function(event){
+  $('.comment-form').on('click', '.comment-link', function(event){
     event.preventDefault();
-    var postId = $(this).data('postId');
+    var commentedId = $(this).data('commentedId');
+    var type = $(this).data('type');
     $(this).hide();
-    $('form#comment-form-post-' + postId).removeClass('hidden');
+    $('form#comment-form-' + type + '-' + commentedId).removeClass('hidden');
+    console.log('form#comment-form-' + type + '-' + commentedId)
   });
 
   $('.comments').on('click', '.edit-comment-link', function(event){

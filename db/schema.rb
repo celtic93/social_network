@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_10_140750) do
+ActiveRecord::Schema.define(version: 2020_05_31_091411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,26 @@ ActiveRecord::Schema.define(version: 2020_05_10_140750) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "friendship_requests", force: :cascade do |t|
+    t.bigint "requestor_id"
+    t.bigint "receiver_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["receiver_id"], name: "index_friendship_requests_on_receiver_id"
+    t.index ["requestor_id", "receiver_id"], name: "index_friendship_requests_on_requestor_id_and_receiver_id", unique: true
+    t.index ["requestor_id"], name: "index_friendship_requests_on_requestor_id"
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.bigint "friend_a_id"
+    t.bigint "friend_b_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["friend_a_id", "friend_b_id"], name: "index_friendships_on_friend_a_id_and_friend_b_id", unique: true
+    t.index ["friend_a_id"], name: "index_friendships_on_friend_a_id"
+    t.index ["friend_b_id"], name: "index_friendships_on_friend_b_id"
   end
 
   create_table "likes", force: :cascade do |t|

@@ -4,19 +4,38 @@ div class="comment-#{comment.id}-errors alert-danger"
 div id="comment-text-#{comment.id}"
   = comment.body
 
-- if current_user&.author?(comment)
-  = form_with model: comment, class: 'hidden p-3', html: { id: "edit-form-comment-#{comment.id}" } do |f|
-    = f.text_area :body, value: comment.body, id: "edit-comment-#{comment.id}", class: 'form-control'
+.comment-form
+  div class="comment-comment-#{comment.id}-errors alert-danger"
 
-    = f.submit 'Save', class: 'btn btn-outline-primary btn-xs mt-3 float-right mb-3'
+  = form_with model: [comment, @new_comment], class: 'hidden p-3', html: { id: "comment-form-comment-#{comment.id}" } do |f|
+    = f.text_area :body, id: "comment-comment-#{comment.id}", class: 'form-control'
 
-div class="btn-group" role="group"
+    = f.submit 'Comment', class: 'btn btn-outline-primary btn-xs mt-3 float-right mb-3'
+
   - if current_user&.author?(comment)
-    p= link_to 'Edit', '#', class: 'edit-comment-link btn btn-outline-primary btn-xs',
-                            data: { comment_id: comment.id }
+    = form_with model: comment, class: 'hidden p-3', html: { id: "edit-form-comment-#{comment.id}" } do |f|
+      = f.text_area :body, value: comment.body, id: "edit-comment-#{comment.id}", class: 'form-control'
 
-  - if current_user&.author?(comment) || current_user&.author?(comment.commentable)
-    p= link_to 'Delete', comment_path(comment), method: :delete,
-                                                class: 'btn btn-outline-primary btn-xs',
-                                                remote: true,
-                                                data: {confirm: 'Are you sure?'}
+      = f.submit 'Save', class: 'btn btn-outline-primary btn-xs mt-3 float-right mb-3'
+
+  div class="btn-group" role="group"
+    - if current_user
+      div class="like-comment-#{comment.id}-link"
+        = render 'likes/like', resource: comment
+
+    - if current_user && comment.commentable_type != 'Comment'
+      p= link_to 'Comment', '#', class: 'comment-link btn btn-outline-primary btn-xs',
+                                 data: { commented_id: comment.id, type: 'comment' }
+
+    - if current_user&.author?(comment)
+      p= link_to 'Edit', '#', class: 'edit-comment-link btn btn-outline-primary btn-xs',
+                              data: { comment_id: comment.id }
+
+    - if current_user&.author?(comment) || current_user&.author?(comment.commentable)
+      p= link_to 'Delete', comment_path(comment), method: :delete,
+                                                  class: 'btn btn-outline-primary btn-xs',
+                                                  remote: true,
+                                                  data: {confirm: 'Are you sure?'}
+
+div class="comments comments-comment-#{comment.id} list-group list-group-flush"
+  = render comment.comments

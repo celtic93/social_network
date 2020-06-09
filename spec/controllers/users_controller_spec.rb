@@ -20,6 +20,10 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:post)).to be_a_new(Post)
     end
 
+    it 'assigns a new comment to @new_comment' do
+      expect(assigns(:new_comment)).to be_a_new(Comment)
+    end
+
     it 'renders show view' do
       expect(response).to render_template :show
     end

@@ -18,12 +18,12 @@ class LikesController < ApplicationController
   private
 
   def find_liked
-    klass = [Post].find {|c| params["#{c.name.underscore}_id"] }
+    klass = [Post, Comment].find {|c| params["#{c.name.underscore}_id"] }
     @liked = klass.find(params["#{klass.name.underscore}_id"])
   end
 
   def find_like
-    klass = [Post].find {|c| c.name == params[:likeable_type] }
+    klass = [Post, Comment].find {|c| c.name == params[:likeable_type] }
     @liked = klass.find(params[:id])
     @like = current_user.likes.find_by(likeable: @liked)
   end

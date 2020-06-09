@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   def show
     @post = Post.new
-    @comment = Comment.new
+    @new_comment = Comment.new
   end
 
   def edit

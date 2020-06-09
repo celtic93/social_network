@@ -1,10 +1,10 @@
 -unless current_user&.liked?(resource)
-  = link_to "#{resource.likes.count} ❤", post_likes_path(resource),
-                                     class: "like-#{resource.class.name.downcase}-link btn btn-outline-primary",
+  = link_to "#{resource.likes.count} ❤", polymorphic_url([resource, Like.new]),
+                                     class: "like-#{resource.class.name.downcase}-link btn btn-outline-primary #{'btn-xs' if resource.class.name == 'Comment'}",
                                      method: :post,
                                      remote: true
 -else
   = link_to "#{resource.likes.count} 💛", like_path(id: resource, likeable_type: resource.class.name),
-                                     class: "like-#{resource.class.name.downcase}-link btn btn-danger",
+                                     class: "like-#{resource.class.name.downcase}-link btn btn-danger #{'btn-xs' if resource.class.name == 'Comment'}",
                                      method: :delete,
                                      remote: true
