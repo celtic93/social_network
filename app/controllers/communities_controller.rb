@@ -1,6 +1,7 @@
 class CommunitiesController < ApplicationController
   before_action :authenticate_user!, except: %i(index show)
-  before_action :find_community, only: %i(show)
+  before_action :find_community, except: %i(index new)
+  before_action :check_author, only: %i(edit update destroy)
 
   def index
     
@@ -19,10 +20,20 @@ class CommunitiesController < ApplicationController
     @community.save ? redirect_to(@community) : render(:create)
   end
 
+  def edit
+  end
+
+  def update
+  end
+
   private
 
   def find_community
     @community = Community.find(params[:id])
+  end
+
+  def check_author
+    redirect_to root_path, alert: 'You can not do this' unless current_user.author?(@community)
   end
 
   def community_params
