@@ -1,7 +1,7 @@
 class CommunitiesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: %i(index show)
   before_action :find_community, only: %i(show)
-  
+
   def index
     
   end
