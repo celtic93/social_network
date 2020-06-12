@@ -1,7 +1,7 @@
 div class="container col-md-6"
   div class="community-errors alert-danger"
 
-  h1 Edit profile
+  h1 Edit community
 
   div class="form-group mt-3"
     =form_with model: @community do |f|
@@ -13,7 +13,9 @@ div class="container col-md-6"
 
       = f.submit 'Save', class: 'btn btn-outline-primary mt-2'
 
-  = link_to 'Delete community', community_path(@community),
+  = link_to 'Back', community_path(@community), class: 'btn btn-outline-primary mt-1 mb-3'
+
+  br= link_to 'Delete community', community_path(@community),
                                 class: 'btn btn-outline-primary mt-1 mb-3',
                                 method: :delete,
                                 data: {confirm: 'Are you sure?'}
