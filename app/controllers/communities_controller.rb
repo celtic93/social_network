@@ -27,6 +27,11 @@ class CommunitiesController < ApplicationController
     @community.update(community_params)
   end
 
+  def destroy
+    @community.destroy
+    redirect_to root_path, notice: 'Community successfully deleted.'
+  end
+
   private
 
   def find_community
