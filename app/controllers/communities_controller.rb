@@ -1,6 +1,6 @@
 class CommunitiesController < ApplicationController
   before_action :authenticate_user!, except: %i(index show)
-  before_action :find_community, except: %i(index new)
+  before_action :find_community, except: %i(index new create)
   before_action :check_author, only: %i(edit update destroy)
 
   def index
