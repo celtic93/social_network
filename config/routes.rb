@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   end
 
   resources :friendship_requests, only: %i(create destroy)
+  resources :communities
 
   root to: 'users#current_user_home'
 end
