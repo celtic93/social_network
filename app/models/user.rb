@@ -21,6 +21,7 @@ class User < ApplicationRecord
   has_many :pending_friends, ->(user) { unscope(where: :user_id).where("requestor_id != ?", user.id) },
                              through: :friendship_requests,
                              source: :requestor
+  has_many :communities
 
   validates :firstname, :lastname, presence: true
   validates :username, presence: true, uniqueness: true
