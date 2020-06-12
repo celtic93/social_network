@@ -24,6 +24,7 @@ class CommunitiesController < ApplicationController
   end
 
   def update
+    @community.update(community_params)
   end
 
   private

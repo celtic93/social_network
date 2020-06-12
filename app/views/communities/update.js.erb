@@ -1,0 +1,7 @@
+<% if @community.errors.blank? %>
+  $('.notice').html('Changes successfully saved.');
+  $('.community-errors').empty()
+<% else %>
+  $('.notice').empty()
+  $('.community-errors').html('<%= render 'shared/errors', resource: @community %>');
+<% end %>
