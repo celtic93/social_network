@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :post do
     body { 'Post body' }
-    user
+    association :publisher, factory: :user
+    user { publisher }
 
     trait :invalid do
       body { nil }
