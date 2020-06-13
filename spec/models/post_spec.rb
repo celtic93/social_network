@@ -5,6 +5,7 @@ RSpec.describe Post, type: :model do
   it_behaves_like 'likeable'
 
   it { should belong_to :user }
+  it { should belong_to :publisher }
   it { should validate_presence_of :body }
 
   let(:user) { create(:user) }
