@@ -69,8 +69,11 @@ ActiveRecord::Schema.define(version: 2020_06_12_072209) do
   create_table "posts", force: :cascade do |t|
     t.text "body"
     t.bigint "user_id"
+    t.string "publisher_type"
+    t.bigint "publisher_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["publisher_type", "publisher_id"], name: "index_posts_on_publisher_type_and_publisher_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
