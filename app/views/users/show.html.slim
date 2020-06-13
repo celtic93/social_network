@@ -23,4 +23,5 @@ div class="container col-md-6"
         = f.submit 'Post', class: 'btn btn-outline-primary mt-3 float-right'
 
   div class='posts mt-3'
-    = render @user.posts
+    - @user.publications.each do |publication|
+      = render 'posts/post', post: publication
