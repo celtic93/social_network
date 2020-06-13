@@ -5,7 +5,6 @@ $(document).on('turbolinks:load', function(){
     var type = $(this).data('type');
     $(this).hide();
     $('form#comment-form-' + type + '-' + commentedId).removeClass('hidden');
-    console.log('form#comment-form-' + type + '-' + commentedId)
   });
 
   $('.comments').on('click', '.edit-comment-link', function(event){
