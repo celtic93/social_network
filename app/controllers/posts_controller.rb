@@ -27,6 +27,11 @@ class PostsController < ApplicationController
   def find_publisher
     klass = [User, Community].find {|c| params["#{c.name.underscore}_id"] }
     @publisher = klass.find(params["#{klass.name.underscore}_id"])
+    check_publisher_author(@publisher) unless klass == User
+  end
+
+  def check_publisher_author(publisher)
+    redirect_to root_path, alert: 'You can not do this' unless current_user.author?(publisher)
   end
 
   def check_author
