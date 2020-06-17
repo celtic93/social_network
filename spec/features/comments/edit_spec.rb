@@ -4,7 +4,7 @@ feature 'User can edit comment' do
   given(:users) { create_list(:user, 2) }
   given(:user) { users[0] }
   given(:other_user) { users[1] }
-  given!(:post) { create(:post, user: user) }
+  given!(:post) { create(:post, publisher: user, user: user) }
   given!(:comment) { create(:comment, user: user, commentable: post) }
   given!(:other_comment) { create(:comment, user: other_user, commentable: post) }
 

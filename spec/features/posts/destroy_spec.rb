@@ -4,8 +4,8 @@ feature 'User can delete post' do
   given(:users) { create_list(:user, 2) }
   given(:user) { users[0] }
   given(:other_user) { users[1] }
-  given!(:post) { create(:post, user: user) }
-  given!(:other_post) { create(:post, user: other_user) }
+  given!(:post) { create(:post, publisher: user, user: user) }
+  given!(:other_post) { create(:post, publisher: other_user, user: other_user) }
 
   describe 'Authenticated user tryes to delete post' do
     scenario 'on his profile page', js: true do
