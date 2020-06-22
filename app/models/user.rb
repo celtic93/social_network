@@ -24,6 +24,9 @@ class User < ApplicationRecord
                              through: :friendship_requests,
                              source: :requestor
   has_many :communities
+  has_many :subscriptions, foreign_key: :subscriber_id
+  has_many :published_users, through: :subscriptions, source: :publisher, source_type: 'User'
+  has_many :published_communities, through: :subscriptions, source: :publisher, source_type: 'Community'
 
   validates :firstname, :lastname, presence: true
   validates :username, presence: true, uniqueness: true
