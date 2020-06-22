@@ -42,4 +42,10 @@ class User < ApplicationRecord
   def friends
     friends_a + friends_b
   end
+
+  def news
+    Post.where("(publisher_id IN (?) AND publisher_type = 'User') OR
+                (publisher_id IN (?) AND publisher_type = 'Community')",
+                published_user_ids, published_community_ids).order(created_at: :desc)
+  end
 end
