@@ -25,8 +25,8 @@ class User < ApplicationRecord
                              source: :requestor
   has_many :communities
   has_many :subscriptions, foreign_key: :subscriber_id
-  has_many :published_users, through: :subscriptions, source: :publisher, source_type: 'User'
-  has_many :published_communities, through: :subscriptions, source: :publisher, source_type: 'Community'
+  has_many :followed_users, through: :subscriptions, source: :publisher, source_type: 'User'
+  has_many :followed_communities, through: :subscriptions, source: :publisher, source_type: 'Community'
 
   validates :firstname, :lastname, presence: true
   validates :username, presence: true, uniqueness: true
@@ -46,6 +46,6 @@ class User < ApplicationRecord
   def news
     Post.where("(publisher_id IN (?) AND publisher_type = 'User') OR
                 (publisher_id IN (?) AND publisher_type = 'Community')",
-                published_user_ids, published_community_ids).order(created_at: :desc)
+                followed_user_ids, followed_community_ids).order(created_at: :desc)
   end
 end
