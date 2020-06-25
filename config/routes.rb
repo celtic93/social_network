@@ -10,6 +10,8 @@ Rails.application.routes.draw do
       
       resources :likes, shallow: true, only: %i(create destroy)
     end
+
+    resources :subscriptions, shallow: true, only: %i(index create destroy)
   end
   
   resources :users, except: %i(index new create), concerns: [:publisher] do
