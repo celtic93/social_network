@@ -89,6 +89,13 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '.subscribed?' do
+    it 'checks that the user subscribed the publisher' do
+      expect(user).to be_subscribed(communities[0])
+      expect(user).to_not be_subscribed(other_user)
+    end
+  end
+
   describe '.news' do
     it 'shows a list of followed users and communities posts' do
       expect(user.news).to eq [followed_community_post, followed_user_post]
