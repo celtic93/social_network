@@ -57,4 +57,61 @@ RSpec.describe SubscriptionsController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    context 'for authenticated user' do
+      context 'for his subscription' do
+        let!(:subscription) { create(:subscription, subscriber: user, publisher: other_user) }
+
+        before { login(user) }
+
+        it 'assigns other_user to @publisher' do
+          delete :destroy, params: { publisher_type: other_user.class.name,
+                                     id: other_user.id }, format: :js
+          expect(assigns(:publisher)).to eq other_user
+        end
+
+        it 'deletes the subscription from database' do
+          expect { delete :destroy, params: { publisher_type: other_user.class.name,
+                                              id: other_user.id }, format: :js }.to change(user.subscriptions, :count).by(-1)
+        end
+
+        it 'renders destroy view' do
+          delete :destroy, params: { publisher_type: other_user.class.name,
+                                     id: other_user.id }, format: :js
+          expect(response).to render_template :destroy
+        end
+      end
+
+      context "for someone else's subscription" do
+        let!(:subscription) { create(:subscription, publisher: other_user) }
+
+        before { login(user) }
+
+        it 'does not delete the subscription from database' do
+          expect { delete :destroy, params: { publisher_type: other_user.class.name,
+                                              id: other_user.id }, format: :js }.to_not change(Subscription, :count)
+        end
+
+        it 'redirects to root page' do
+          delete :destroy, params: { publisher_type: other_user.class.name,
+                                     id: other_user.id }, format: :js
+          expect(response).to redirect_to root_path
+        end
+      end
+    end
+
+    context 'for unauthenticated user' do
+      it "don't delete the subscription from database" do
+        expect { delete :destroy, params: { publisher_type: other_user.class.name,
+                                            id: other_user.id }, format: :js }.to_not change(Subscription, :count)
+      end
+
+      it 'redirects to sign up page' do
+        delete :destroy, params: { publisher_type: other_user.class.name,
+                                   id: other_user.id }, format: :js
+        expect(response.status).to eq 401
+      end
+    end
+  end
 end
