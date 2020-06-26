@@ -6,7 +6,8 @@ div class="container col-md-6"
     = link_to 'Edit community', edit_community_path(@community), class: 'btn btn-outline-primary'
 
   - if !current_user&.author?(@community) && current_user
-    = render 'subscriptions/follow_link', publisher: @community
+    .follow-link
+      = render 'subscriptions/follow_link', publisher: @community
 
   - if current_user&.author?(@community)
     div class="post-errors alert-danger"

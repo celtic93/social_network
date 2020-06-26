@@ -43,6 +43,10 @@ class User < ApplicationRecord
     friends_a + friends_b
   end
 
+  def subscribed?(publisher)
+    subscriptions.exists?(publisher: publisher)
+  end
+
   def news
     Post.where("(publisher_id IN (?) AND publisher_type = 'User') OR
                 (publisher_id IN (?) AND publisher_type = 'Community')",
