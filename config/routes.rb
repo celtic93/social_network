@@ -21,5 +21,6 @@ Rails.application.routes.draw do
   resources :friendship_requests, only: %i(create destroy)
   resources :communities, concerns: [:publisher]
 
+  get 'feed', to: 'subscriptions#index'
   root to: 'users#current_user_home'
 end

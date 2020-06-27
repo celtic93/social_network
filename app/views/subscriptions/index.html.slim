@@ -1,0 +1,4 @@
+div class="container col-md-6"
+  div class='posts'
+    - @news.each do |post|
+      = render 'posts/post', post: post

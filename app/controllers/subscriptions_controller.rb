@@ -3,6 +3,11 @@ class SubscriptionsController < ApplicationController
   before_action :find_publisher, only: %i(create)
   before_action :find_subscription, only: %i(destroy)
 
+  def index
+    @news = current_user.news
+    @new_comment = Comment.new
+  end
+
   def create
     @subscription = Subscription.create(subscriber: current_user, publisher: @publisher)
   end
