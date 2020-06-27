@@ -5,6 +5,42 @@ RSpec.describe SubscriptionsController, type: :controller do
   let(:user) { users[0] }
   let(:other_user) { users[1] }
 
+  describe 'GET #index' do
+    context 'for authenticated user' do
+      let(:community) { create(:community) }
+      let!(:subscription) { create(:subscription, subscriber: user, publisher: community) }
+      let!(:post) { create(:post, user: community.user, publisher: community)}
+
+      before do
+        login(user)
+        get :index
+      end
+
+      it 'assigns the user news to @news' do
+        expect(assigns(:news)).to eq [post]
+      end
+
+      it 'assigns a new comment to @new_comment' do
+        expect(assigns(:new_comment)).to be_a_new(Comment)
+      end
+
+      it 'renders index view' do
+        expect(response).to render_template :index
+      end
+    end
+
+    context 'for unauthenticated user' do
+      it 'does not save a new subscription in database' do
+        expect { post :create, params: { user_id: other_user }, format: :js }.to_not change(Subscription, :count)
+      end
+
+      it 'redirects to sign up page' do
+        post :create, params: { user_id: other_user, format: :js }
+        expect(response.status).to eq 401
+      end
+    end
+  end
+
   describe 'POST #create' do
     context 'for authenticated user' do
       context 'with no subscription' do
