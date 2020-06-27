@@ -30,13 +30,9 @@ RSpec.describe SubscriptionsController, type: :controller do
     end
 
     context 'for unauthenticated user' do
-      it 'does not save a new subscription in database' do
-        expect { post :create, params: { user_id: other_user }, format: :js }.to_not change(Subscription, :count)
-      end
-
-      it 'redirects to sign up page' do
-        post :create, params: { user_id: other_user, format: :js }
-        expect(response.status).to eq 401
+      it 'redirects to sign in page' do
+        get :index
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end
