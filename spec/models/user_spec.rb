@@ -18,7 +18,7 @@ RSpec.describe User, type: :model do
     it { should validate_uniqueness_of :username }
   end
 
-  let(:users) { build_list(:user, 2) }
+  let(:users) { create_list(:user, 2) }
   let(:user) { users[0] }
   let(:other_user) { users[1] }
   let(:post) { create(:post, user: user) }
@@ -99,6 +99,15 @@ RSpec.describe User, type: :model do
   describe '.news' do
     it 'shows a list of followed users and communities posts' do
       expect(user.news).to eq [followed_community_post, followed_user_post]
+    end
+  end
+
+  describe 'self.search' do
+    it 'looking for users by query' do
+      expect(User.search('')).to be_nil
+      expect(User.search(user.firstname).to_a).to eq [user]
+      expect(User.search(user.lastname).to_a).to eq [user]
+      expect(User.search(other_user.username).to_a).to eq [other_user]
     end
   end
 end
