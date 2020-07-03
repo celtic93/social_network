@@ -22,5 +22,6 @@ Rails.application.routes.draw do
   resources :communities, concerns: [:publisher]
 
   get 'feed', to: 'subscriptions#index'
+  get 'search', to: 'search#index'
   root to: 'users#current_user_home'
 end
