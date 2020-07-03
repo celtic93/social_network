@@ -52,4 +52,8 @@ class User < ApplicationRecord
                 (publisher_id IN (?) AND publisher_type = 'Community')",
                 followed_user_ids, followed_community_ids).order(created_at: :desc)
   end
+
+  def self.search(query)
+    where('firstname LIKE ? OR lastname LIKE ? OR username LIKE ?', "%#{query}%", "%#{query}%", "%#{query}%") unless query.blank?
+  end
 end
