@@ -21,12 +21,14 @@ feature 'User can unfriend friend' do
       sign_in(user)
       click_on 'My friends'
 
+      expect(page).to have_content 'Friends 1'
       expect(page).to have_content friend.firstname
       expect(page).to have_content friend.lastname
 
       click_on 'Unfriend'
       expect(page).to_not have_content friend.firstname
       expect(page).to_not have_content friend.lastname
+      expect(page).to have_content 'Friends 0'
     end
   end
 
