@@ -21,6 +21,9 @@ feature 'User can cancel request for friendship' do
       sign_in(user)
       click_on 'My friends'
 
+      expect(page).to have_content 'Friends 0'
+      expect(page).to have_content 'Requests 1'
+
       expect(page).to_not have_content 'Unfriend'
       expect(page).to_not have_content friend.firstname
       expect(page).to_not have_content friend.lastname
@@ -38,6 +41,9 @@ feature 'User can cancel request for friendship' do
       expect(page).to_not have_content friend.firstname
       expect(page).to_not have_content friend.lastname
       expect(page).to_not have_content 'Unfriend'
+
+      expect(page).to have_content 'Friends 0'
+      expect(page).to have_content 'Requests 0'
     end
   end
 

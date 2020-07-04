@@ -2,3 +2,4 @@ $('.friend-link').html('<%= j render 'friendship_requests/add_friend_link', user
 $('#requested-friend-<%= @user.id %>').remove()
 $('#pending-friend-<%= @user.id %>').remove()
 $('#requests-tab').html('Requests <%= @user.requested_friends.count %>')
+$('#pending-tab').html('Pending <%= @user.pending_friends.count %>')
