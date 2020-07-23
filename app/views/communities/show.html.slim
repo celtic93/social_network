@@ -1,0 +1,24 @@
+div class="container col-md-6"
+  h1= "#{@community.name}"
+  p= "#{@community.description}"
+
+  -if current_user&.author?(@community)
+    = link_to 'Edit community', edit_community_path(@community), class: 'btn btn-outline-primary'
+
+  - if !current_user&.author?(@community) && current_user
+    .follow-link
+      = render 'subscriptions/follow_link', publisher: @community
+
+  - if current_user&.author?(@community)
+    div class="post-errors alert-danger"
+  
+    div class="card form-group mt-3 p-3"
+      = form_with model: [@community, @post], class: 'new-post' do |f|
+        = f.text_area :body, class: 'form-control'
+
+        = f.submit 'Post', class: 'btn btn-outline-primary mt-3 float-right'
+
+  div class='posts mt-3'
+    - @community.publications.each do |publication|
+      = render 'posts/post', post: publication
+

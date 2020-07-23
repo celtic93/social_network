@@ -12,6 +12,8 @@ div class="container col-md-6"
         = render 'friendships/accept_link', user: @user
       - else
         = render 'friendship_requests/add_friend_link', user: @user
+    .follow-link
+      = render 'subscriptions/follow_link', publisher: @user
 
   - if current_user&.id == @user.id
     div class="post-errors alert-danger"
@@ -23,4 +25,5 @@ div class="container col-md-6"
         = f.submit 'Post', class: 'btn btn-outline-primary mt-3 float-right'
 
   div class='posts mt-3'
-    = render @user.posts
+    - @user.publications.each do |publication|
+      = render 'posts/post', post: publication

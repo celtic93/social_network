@@ -1,2 +1,3 @@
 $('.friend-link').html('<%= j render 'friendship_requests/add_friend_link', user: @user %>')
 $('#friend-<%= @user.id %>').remove()
+$('#friends-tab').html('Friends <%= @user.friends.count %>')

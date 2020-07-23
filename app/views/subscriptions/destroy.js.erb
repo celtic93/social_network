@@ -1,0 +1,3 @@
+<% unless @subscription.persisted? %>
+  $('.follow-link').html('<%= j render 'subscriptions/follow_link', publisher: @publisher %>')
+<% end %>

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Publisher
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -21,6 +23,10 @@ class User < ApplicationRecord
   has_many :pending_friends, ->(user) { unscope(where: :user_id).where("requestor_id != ?", user.id) },
                              through: :friendship_requests,
                              source: :requestor
+  has_many :communities
+  has_many :subscriptions, foreign_key: :subscriber_id
+  has_many :followed_users, through: :subscriptions, source: :publisher, source_type: 'User'
+  has_many :followed_communities, through: :subscriptions, source: :publisher, source_type: 'Community'
 
   validates :firstname, :lastname, presence: true
   validates :username, presence: true, uniqueness: true
@@ -35,5 +41,19 @@ class User < ApplicationRecord
 
   def friends
     friends_a + friends_b
+  end
+
+  def subscribed?(publisher)
+    subscriptions.exists?(publisher: publisher)
+  end
+
+  def news
+    Post.where("(publisher_id IN (?) AND publisher_type = 'User') OR
+                (publisher_id IN (?) AND publisher_type = 'Community')",
+                followed_user_ids, followed_community_ids).order(created_at: :desc)
+  end
+
+  def self.search(query)
+    where('firstname LIKE ? OR lastname LIKE ? OR username LIKE ?', "%#{query}%", "%#{query}%", "%#{query}%") unless query.blank?
   end
 end

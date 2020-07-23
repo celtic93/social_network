@@ -4,15 +4,21 @@ RSpec.describe PostsController, type: :controller do
   let!(:user_post) { create(:post) }
   let(:other_user) { create(:user) }
   let(:user) { user_post.user }
+  let(:community) { create(:community, user: user) }
 
   describe 'POST #create' do
     context 'with valid attributes' do
       before { login(user) }
 
+      it 'assigns user to @publisher' do
+        post :create, params: { user_id: user,
+                                post: attributes_for(:post), format: :js }
+        expect(assigns(:publisher)).to eq user
+      end
+
       it 'saves a new post in database' do
         expect { post :create, params: { user_id: user,
-                                         post: attributes_for(:post) }, format: :js }.to change(user.posts, :count).by(1)
-
+                                         post: attributes_for(:post) }, format: :js }.to change(user.publications, :count).by(1)
       end
 
       it 'assigns a new comment to @new_comment' do
@@ -33,13 +39,61 @@ RSpec.describe PostsController, type: :controller do
 
       it 'does not save a new post in database' do
         expect { post :create, params: { user_id: user,
-                                         post: attributes_for(:post, :invalid) }, format: :js }.to_not change(user.posts, :count)
+                                         post: attributes_for(:post, :invalid) }, format: :js }.to_not change(user.publications, :count)
       end
 
       it 'renders create' do
         post :create, params: { user_id: user,
                                 post: attributes_for(:post, :invalid) }, format: :js
         expect(response).to render_template :create
+      end
+    end
+
+    context 'for publisher user' do
+      before { login(user) }
+
+      it 'assigns community to @publisher' do
+        post :create, params: { community_id: community,
+                                post: attributes_for(:post), format: :js }
+        expect(assigns(:publisher)).to eq community
+      end
+
+      it 'saves a new post in database' do
+        expect { post :create, params: { community_id: community,
+                                         post: attributes_for(:post) }, format: :js }.to change(community.publications, :count).by(1)
+      end
+
+      it 'assigns a new comment to @new_comment' do
+        post :create, params: { community_id: community,
+                                post: attributes_for(:post), format: :js }
+        expect(assigns(:new_comment)).to be_a_new(Comment)
+      end
+
+      it 'renders create' do
+        post :create, params: { community_id: community,
+                                post: attributes_for(:post), format: :js }
+        expect(response).to render_template :create
+      end
+    end
+
+    context 'for not publisher user' do
+      before { login(other_user) }
+
+      it 'assigns community to @publisher' do
+        post :create, params: { community_id: community,
+                                post: attributes_for(:post), format: :js }
+        expect(assigns(:publisher)).to eq community
+      end
+
+      it 'do not saves a new post in database' do
+        expect { post :create, params: { community_id: community,
+                                         post: attributes_for(:post) }, format: :js }.to_not change(community.publications, :count)
+      end
+
+      it 'redirects to root page' do
+        post :create, params: { community_id: community,
+                                post: attributes_for(:post), format: :js }
+        expect(response).to redirect_to root_path
       end
     end
 
@@ -143,7 +197,7 @@ RSpec.describe PostsController, type: :controller do
         before { login(user) }
 
         it 'deletes the post' do
-          expect { delete :destroy, params: { user_id: user, id: user_post }, format: :js }.to change(user.posts, :count).by(-1)
+          expect { delete :destroy, params: { user_id: user, id: user_post }, format: :js }.to change(user.publications, :count).by(-1)
         end
 
         it 'renders destroy view' do
